@@ -1,0 +1,52 @@
+<div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header text-center">
+          <h4>Login</h4>
+        </div>
+        <div class="card-body">
+          <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+            <!-- Email Input -->
+            <div class="form-group mb-3">
+              <label for="email">Email</label>
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                [(ngModel)]="email"
+                name="email"
+                required
+              />
+              <div *ngIf="loginForm.submitted && !email" class="text-danger">
+                Email is required.
+              </div>
+            </div>
+  
+            <!-- Password Input -->
+            <div class="form-group mb-3">
+              <label for="password">Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                [(ngModel)]="password"
+                name="password"
+                required
+              />
+              <div *ngIf="loginForm.submitted && !password" class="text-danger">
+                Password is required.
+              </div>
+            </div>
+  
+            <!-- Error Message -->
+            <div *ngIf="errorMessage" class="text-danger mb-3">
+              {{ errorMessage }}
+            </div>
+  
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary">Login</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>

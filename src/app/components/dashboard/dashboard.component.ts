@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ItemService } from '../services/item.service';
+import { ItemService } from '../../services/item.service';
 
 @Component({
   standalone: true,

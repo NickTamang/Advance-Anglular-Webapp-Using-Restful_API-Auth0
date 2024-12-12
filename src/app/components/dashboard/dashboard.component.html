@@ -1,54 +1,14 @@
 <div class="container-fluid">
   <div class="row">
-    <!-- Sidebar -->
-    <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-      <div class="position-sticky">
-        <ul class="nav flex-column">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">
-              <span data-feather="home"></span>
-              Dashboard
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="file"></span>
-              My Items
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="shopping-cart"></span>
-              Shared Items
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="users"></span>
-              Profile
-            </a>
-          </li>
-        </ul>
-      </div>
-    </nav>
-
-    <!-- Main content -->
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Dashboard</h1>
-      </div>
-
-      <!-- Loader -->
       <div *ngIf="loading" class="text-center">
         <p>Loading items...</p>
       </div>
 
-      <!-- Error Message -->
       <div *ngIf="error" class="alert alert-danger">
         {{ error }}
       </div>
 
-      <!-- Items List -->
       <div *ngIf="!loading && !error && items.length > 0">
         <h2>Available Items</h2>
         <div class="row">
@@ -59,27 +19,49 @@
                 <h5 class="card-title">{{ item.item_name }}</h5>
                 <p class="card-text">{{ item.description }}</p>
 
-                <!-- Comments Section -->
                 <h6>Comments</h6>
                 <ul *ngIf="item.comments.length > 0; else noComments">
                   <li *ngFor="let comment of item.comments">
-                    {{ comment.user }}: {{ comment.text }}
+                    <p>{{ comment.timestamp | date:'short' }} - {{ comment.comment_text }}</p>
+                    <p *ngIf="comment.reply" class="text-muted">
+                      <strong>Reply:</strong> {{ comment.reply }}
+                    </p>
+                    <button class="btn btn-sm btn-link" (click)="openReplyForm(comment.comment_id, item.item_id)">
+                      Reply
+                    </button>
                   </li>
                 </ul>
                 <ng-template #noComments>
                   <p>No comments found for this item.</p>
                 </ng-template>
-
-                <div class="d-flex justify-content-between align-items-center">
-                  <button class="btn btn-sm btn-outline-secondary">Express Interest</button>
-                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- No Items Message -->
+      <div *ngIf="replyingCommentId">
+        <div class="modal show" tabindex="-1" style="display: block; background: rgba(0,0,0,0.5);">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Reply to Comment</h5>
+                <button type="button" class="btn-close" (click)="closeReplyForm()"></button>
+              </div>
+              <div class="modal-body">
+                <form (ngSubmit)="submitReply()">
+                  <div class="mb-3">
+                    <textarea [(ngModel)]="replyText" name="replyText" class="form-control" rows="3" placeholder="Write your reply..." required></textarea>
+                  </div>
+                  <button type="submit" class="btn btn-primary">Submit Reply</button>
+                  <button type="button" class="btn btn-secondary" (click)="closeReplyForm()">Cancel</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div *ngIf="!loading && !error && items.length === 0">
         <p>No items found.</p>
       </div>

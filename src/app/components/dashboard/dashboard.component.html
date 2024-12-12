@@ -1,18 +1,24 @@
 <div class="container-fluid">
   <div class="row">
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+      <!-- Search Bar -->
+      <app-search (search)="onSearch($event)"></app-search>
+
+      <!-- Loading Indicator -->
       <div *ngIf="loading" class="text-center">
         <p>Loading items...</p>
       </div>
 
+      <!-- Error Message -->
       <div *ngIf="error" class="alert alert-danger">
         {{ error }}
       </div>
 
-      <div *ngIf="!loading && !error && items.length > 0">
+      <!-- Items List -->
+      <div *ngIf="!loading && !error && filteredItems.length > 0">
         <h2>Available Items</h2>
         <div class="row">
-          <div class="col-md-4" *ngFor="let item of items">
+          <div class="col-md-4" *ngFor="let item of filteredItems">
             <div class="card mb-4 shadow-sm">
               <img src="{{ item.photo_url }}" class="card-img-top" alt="{{ item.item_name }}">
               <div class="card-body">
@@ -40,6 +46,7 @@
         </div>
       </div>
 
+      <!-- Reply Form -->
       <div *ngIf="replyingCommentId">
         <div class="modal show" tabindex="-1" style="display: block; background: rgba(0,0,0,0.5);">
           <div class="modal-dialog">
@@ -62,8 +69,9 @@
         </div>
       </div>
 
-      <div *ngIf="!loading && !error && items.length === 0">
-        <p>No items found.</p>
+      <!-- No Items Message -->
+      <div *ngIf="!loading && !error && filteredItems.length === 0">
+        <p>No items match your search.</p>
       </div>
     </main>
   </div>

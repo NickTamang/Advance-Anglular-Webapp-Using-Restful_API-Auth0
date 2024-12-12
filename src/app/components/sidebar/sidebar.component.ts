@@ -42,7 +42,29 @@ export class SidebarComponent implements OnInit {
   }
 
   logOut(): void {
-    // Clear token and redirect to login
+    const token = this.itemService.getAuthToken();
+    if (!token) {
+      console.warn('No token found. Logging out without server notification.');
+      this.clearLocalSession();
+      return;
+    }
+
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    const endpoint = 'http://localhost:5000/api/rehome/logout'; // Logout endpoint
+
+    this.http.post(endpoint, {}, { headers }).subscribe({
+      next: (response) => {
+        console.log('Logout successful:', response);
+        this.clearLocalSession();
+      },
+      error: (error) => {
+        console.error('Logout failed:', error);
+        this.clearLocalSession(); // Clear session even if server logout fails
+      },
+    });
+  }
+
+  private clearLocalSession(): void {
     localStorage.removeItem('authToken');
     this.router.navigate(['/login']);
   }

@@ -1,5 +1,10 @@
 <div class="container-fluid">
   <div class="row">
+    
+    <div class="col-md-3 col-lg-2 bg-light sidebar">
+      <app-sidebar></app-sidebar>
+    </div>
+
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
       <!-- Search Bar -->
       <app-search (search)="onSearch($event)"></app-search>

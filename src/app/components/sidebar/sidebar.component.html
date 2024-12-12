@@ -1,0 +1,29 @@
+<div class="sidebar-container">
+    <!-- User Photo -->
+    <div class="profile-section text-center">
+      <img
+        *ngIf="userProfile?.profile_picture"
+        [src]="userProfile.profile_picture"
+        alt="User Photo"
+        class="profile-picture"
+      />
+      <p *ngIf="!userProfile?.profile_picture">No photo available</p>
+  
+      <!-- View Profile Link -->
+      <a class="view-profile-link" href="#" routerLink="/profile">View Profile</a>
+    </div>
+  
+    <!-- My Items Section -->
+    <div class="my-items-section">
+      <h5>My Items</h5>
+      <ul>
+        <li *ngFor="let item of userProfile?.items">
+          {{ item.item_name }}
+        </li>
+      </ul>
+    </div>
+  
+    <!-- Log Out Button -->
+    <button class="btn btn-danger w-100 mt-3" (click)="logOut()">Log Out</button>
+  </div>
+  

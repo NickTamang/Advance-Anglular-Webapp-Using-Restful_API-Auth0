@@ -4,13 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { ItemService } from '../../services/item.service';
 import { SearchComponent } from '../search/search.component';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { SidebarComponent } from '../sidebar/sidebar.component'; 
 
 @Component({
   standalone: true,
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
-  imports: [CommonModule, FormsModule, SearchComponent], // Add SearchComponent to imports
+  imports: [CommonModule, FormsModule, SearchComponent, SidebarComponent], // Add SearchComponent to imports
 })
 export class DashboardComponent implements OnInit {
   items: any[] = [];

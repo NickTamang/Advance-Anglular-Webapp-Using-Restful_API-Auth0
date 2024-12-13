@@ -1,33 +1,68 @@
-/* Add your custom styles here */
-body {
-    font-family: Arial, sans-serif;
-  }
-  
-  .sidebar {
-    height: 100vh;
-    position: fixed;
-  }
-  
-  .card-img-top {
-    height: 200px;
-    object-fit: cover;
-  }
-  
-  .card-body {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-  
-  .card-title {
-    font-size: 1.25rem;
-    font-weight: bold;
-  }
-  
-  .card-text {
-    flex-grow: 1;
-  }
-  
-  .btn-outline-secondary {
-    margin-top: 10px;
-  }
+.fixed-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh; /* Full viewport height */
+  overflow-y: auto; /* Enable scrolling if content overflows */
+  z-index: 1030; /* Keep it above other content */
+}
+
+.main-content {
+  margin-left: 16.67%; /* Adjust based on the sidebar's width (e.g., col-md-3) */
+}
+.comments-title {
+  font-size: 0.8rem; /* Title font size */
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.comments-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; /* Spacing between comments */
+}
+
+.comment-box {
+  border: 1px solid #ddd; /* Border for each comment */
+  border-radius: 8px; /* Rounded corners */
+  padding: 0.75rem; /* Padding inside the box */
+  background-color: #f9f9f9; /* Light background for comments */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.comment-header {
+  font-size: 0.75rem; /* Smaller timestamp */
+  color: #999;
+  margin-bottom: 0.5rem;
+}
+
+.comment-body {
+  font-size: 0.8rem; /* Comment text size */
+  line-height: 0.8;
+  margin-bottom: 0.8rem;
+}
+
+
+.reply-inline {
+  display: inline; /* Keep reply inline */
+  color: #666; /* Slightly muted color for reply text */
+}
+
+.reply-box {
+  border-top: 1px solid #ccc; /* Top border to separate reply */
+  margin-top: 0.5rem; /* Space between comment and reply */
+  padding-top: 0.5rem; /* Padding above reply */
+}
+
+.comment-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.no-comments-message {
+  font-size: 0.9rem;
+  color: #171212;
+  text-align: center;
+  margin-top: 1rem;
+}

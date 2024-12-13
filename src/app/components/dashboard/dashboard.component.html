@@ -1,13 +1,18 @@
 <div class="container-fluid">
   <div class="row">
     
-    <div class="col-md-3 col-lg-2 bg-light sidebar">
+    <div class="col-md-3 col-lg-2 bg-light sidebar fixed-sidebar">
       <app-sidebar></app-sidebar>
     </div>
 
-    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+    <main class="col-md-9 ms-sm-auto col-lg-2 px-md-1 ">
       <!-- Search Bar -->
       <app-search (search)="onSearch($event)"></app-search>
+      <div class="my-items-section mt-3">
+        <button class="btn btn-primary w-100" routerLink="/my-items">My Items</button>
+      </div>
+
+      <router-outlet></router-outlet>
 
       <!-- Loading Indicator -->
       <div *ngIf="loading" class="text-center">
@@ -30,21 +35,30 @@
                 <h5 class="card-title">{{ item.item_name }}</h5>
                 <p class="card-text">{{ item.description }}</p>
 
-                <h6>Comments</h6>
-                <ul *ngIf="item.comments.length > 0; else noComments">
-                  <li *ngFor="let comment of item.comments">
-                    <p>{{ comment.timestamp | date:'short' }} - {{ comment.comment_text }}</p>
-                    <p *ngIf="comment.reply" class="text-muted">
-                      <strong>Reply:</strong> {{ comment.reply }}
-                    </p>
-                    <button class="btn btn-sm btn-link" (click)="openReplyForm(comment.comment_id, item.item_id)">
-                      Reply
-                    </button>
-                  </li>
-                </ul>
-                <ng-template #noComments>
-                  <p>No comments found for this item.</p>
-                </ng-template>
+                <h6 class="comments-title">Comments</h6>
+<div *ngIf="item.comments.length > 0; else noComments" class="comments-container">
+  <div *ngFor="let comment of item.comments" class="comment-box">
+    <div class="comment-header">
+      <span class="comment-timestamp">{{ comment.timestamp | date:'short' }}</span>
+    </div>
+    <div class="comment-body">
+      <p class="comment-text">{{ comment.comment_text }}</p>
+      <p *ngIf="comment.reply" class="comment-reply text-muted">
+        <strong>Reply:</strong> {{ comment.reply }}
+      </p>
+    </div>
+    <div class="comment-actions">
+      <button class="btn btn-sm btn-outline-primary" (click)="openReplyForm(comment.comment_id, item.item_id)">
+        Reply
+      </button>
+    </div>
+  </div>
+</div>
+
+<ng-template #noComments>
+  <p class="no-comments-message">No comments found for this item.</p>
+</ng-template>
+
               </div>
             </div>
           </div>

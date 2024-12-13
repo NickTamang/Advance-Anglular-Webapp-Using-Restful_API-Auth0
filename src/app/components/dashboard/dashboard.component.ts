@@ -1,17 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
 import { ItemService } from '../../services/item.service';
 import { SearchComponent } from '../search/search.component';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { SidebarComponent } from '../sidebar/sidebar.component'; 
+import { SidebarComponent } from '../sidebar/sidebar.component';
 
 @Component({
   standalone: true,
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
-  imports: [CommonModule, FormsModule, SearchComponent, SidebarComponent], // Add SearchComponent to imports
+  imports: [CommonModule, FormsModule, RouterModule, SearchComponent, SidebarComponent],
 })
 export class DashboardComponent implements OnInit {
   items: any[] = [];

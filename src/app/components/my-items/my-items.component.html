@@ -1,0 +1,80 @@
+<div class="container mt-4">
+  <h2>My Items</h2>
+
+  <!-- Success and Error Messages -->
+  <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
+  <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+
+  <!-- Compact Form -->
+  <form (ngSubmit)="addItem()" class="d-flex gap-2 align-items-center mb-3">
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Item Name"
+      [(ngModel)]="newItem.item_name"
+      name="item_name"
+      required
+    />
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Description"
+      [(ngModel)]="newItem.description"
+      name="description"
+      required
+    />
+    <input
+      type="url"
+      class="form-control"
+      placeholder="Photo URL"
+      [(ngModel)]="newItem.photo_url"
+      name="photo_url"
+    />
+    <select class="form-select" [(ngModel)]="newItem.status" name="status">
+      <option value="available">Available</option>
+      <option value="taken">Taken</option>
+    </select>
+    <button type="submit" class="btn btn-primary">Add</button>
+  </form>
+
+  <!-- Items List -->
+  <div *ngIf="items.length > 0" class="mt-3">
+    <h5>Your Items</h5>
+    <div class="item-list">
+      <div *ngFor="let item of items" class="item-box d-flex align-items-center justify-content-between">
+        <div>
+          <strong>{{ item.item_name }}</strong>: {{ item.description }}
+          <br />
+          <img
+            *ngIf="item.photo_url"
+            [src]="item.photo_url"
+            alt="{{ item.item_name }}"
+            class="item-image"
+          />
+          <span class="badge bg-success">{{ item.status }}</span>
+        </div>
+        <button class="btn btn-danger btn-sm" (click)="deleteItem(item)">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- No Items Found -->
+  <div *ngIf="items.length === 0" class="mt-3">
+    <p>No items found. Fetching items you have shared...</p>
+    <button class="btn btn-secondary" (click)="fetchSharedItems()">Fetch Shared Items</button>
+    <ul *ngIf="sharedItems.length > 0" class="list-group mt-3">
+      <li *ngFor="let sharedItem of sharedItems" class="list-group-item">
+        <strong>{{ sharedItem.item_name }}</strong>: {{ sharedItem.description }}
+        <br />
+        <img
+          *ngIf="sharedItem.photo_url"
+          [src]="sharedItem.photo_url"
+          alt="{{ sharedItem.item_name }}"
+          class="img-thumbnail mt-2"
+          style="max-width: 100px"
+        />
+        <span class="badge bg-info">{{ sharedItem.status }}</span>
+      </li>
+    </ul>
+  </div>
+</div>

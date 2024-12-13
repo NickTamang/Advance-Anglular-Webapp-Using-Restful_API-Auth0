@@ -7,6 +7,12 @@
   z-index: 1030; /* Keep it above other content */
 }
 
+.custom-navbar {
+  background-color: #ffffff; /* Replace with your desired color */
+  color: #34db1d; /* Optional: Change text color */
+}
+
+
 .main-content {
   margin-left: 16.67%; /* Adjust based on the sidebar's width (e.g., col-md-3) */
 }

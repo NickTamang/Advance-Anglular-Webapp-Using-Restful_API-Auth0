@@ -15,15 +15,15 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
   imports: [CommonModule, FormsModule, RouterModule, SearchComponent, SidebarComponent],
 })
 export class DashboardComponent implements OnInit {
-  items: any[] = [];
+  items: any[] = []; // List of items
   filteredItems: any[] = []; // For search functionality
-  loading = false;
-  error: string | null = null;
+  loading = false; // Loading state
+  error: string | null = null; // Error message
 
   expandedItems: { [key: string]: boolean } = {}; // Track expanded state for each item
-  replyingCommentId: string | null = null;
-  replyingItemId: string | null = null;
-  replyText: string = '';
+  replyingCommentId: string | null = null; // ID of the comment being replied to
+  replyingItemId: string | null = null; // ID of the item being replied to
+  replyText: string = ''; // Text of the reply
 
   constructor(private itemService: ItemService, private http: HttpClient) {}
 
@@ -31,6 +31,7 @@ export class DashboardComponent implements OnInit {
     this.fetchItems();
   }
 
+  // Fetch items from the server
   private fetchItems(): void {
     this.loading = true;
     this.error = null;
@@ -51,10 +52,12 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  // Toggle the expanded state of an item
   toggleExpand(itemId: string): void {
     this.expandedItems[itemId] = !this.expandedItems[itemId];
   }
 
+  // Handle search functionality
   onSearch(query: string): void {
     if (!query.trim()) {
       this.filteredItems = [...this.items];
@@ -74,17 +77,20 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  // Open the reply form for a comment
   openReplyForm(commentId: string, itemId: string): void {
     this.replyingCommentId = commentId;
     this.replyingItemId = itemId;
   }
 
+  // Close the reply form
   closeReplyForm(): void {
     this.replyingCommentId = null;
     this.replyingItemId = null;
     this.replyText = '';
   }
 
+  // Submit a reply to a comment
   submitReply(): void {
     if (!this.replyingCommentId || !this.replyText.trim()) return;
 

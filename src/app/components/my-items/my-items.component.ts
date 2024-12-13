@@ -12,7 +12,7 @@ import { SearchComponent } from '../search/search.component';
   selector: 'app-my-items',
   templateUrl: './my-items.component.html',
   styleUrls: ['./my-items.component.css'],
-  imports: [CommonModule, FormsModule, SearchComponent], // Import CommonModule and FormsModule
+  imports: [CommonModule, FormsModule], 
 })
 export class MyItemsComponent implements OnInit {
   items: any[] = []; // List of user’s items
@@ -37,6 +37,7 @@ export class MyItemsComponent implements OnInit {
     this.fetchUserItems();
   }
 
+  // Fetch the user's items from the server
   fetchUserItems(): void {
     const token = this.tokenService.getToken();
     if (!token) {
@@ -66,35 +67,9 @@ export class MyItemsComponent implements OnInit {
     });
   }
 
-  fetchSharedItems(): void {
-    const token = this.tokenService.getToken();
-    if (!token) {
-      this.errorMessage = 'You are not logged in.';
-      this.router.navigate(['/login']);
-      return;
-    }
 
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const endpoint = 'http://localhost:5000/api/rehome/items';
 
-    this.http.get<any[]>(endpoint, { headers }).subscribe({
-      next: (data) => {
-        console.log('Fetched Shared Items:', data);
-        this.sharedItems = data;
-        this.errorMessage = '';
-      },
-      error: (error) => {
-        console.error('Error fetching shared items:', error);
-        if (error.status === 401) {
-          this.errorMessage = 'Your session has expired. Please log in again.';
-          this.router.navigate(['/login']);
-        } else {
-          this.errorMessage = 'Failed to fetch shared items. Please try again.';
-        }
-      },
-    });
-  }
-
+  // Add a new item
   addItem(): void {
     const token = this.tokenService.getToken();
     if (!token) {
@@ -128,6 +103,8 @@ export class MyItemsComponent implements OnInit {
       },
     });
   }
+
+  // Delete an item
   deleteItem(item: any): void {
     const token = this.tokenService.getToken();
     if (!token) {
@@ -152,7 +129,4 @@ export class MyItemsComponent implements OnInit {
       },
     });
   }
-  
-  
-  
 }

@@ -10,9 +10,13 @@ import { FormsModule } from '@angular/forms';
   imports: [CommonModule, FormsModule],
 })
 export class SearchComponent {
+  // Event emitter to send the search query to the parent component
   @Output() search = new EventEmitter<string>();
+  
+  // Variable to hold the search query
   searchQuery: string = '';
 
+  // Method to emit the search query when the search action is triggered
   onSearch(): void {
     this.search.emit(this.searchQuery.trim());
   }

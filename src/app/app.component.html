@@ -1,0 +1,14 @@
+<div class="container">
+  <button *ngIf="!(isAuthenticated$ | async)" (click)="loginWithRedirect()" class="btn btn-primary">
+    Log In with Google
+  </button>
+
+  <button *ngIf="isAuthenticated$ | async" (click)="logout()" class="btn btn-danger">
+    Log Out
+  </button>
+
+  <div *ngIf="user$ | async as user" class="mt-3">
+    <p>Welcome, {{ user.name }}</p>
+    <img [src]="user.picture" alt="{{ user.name }}" class="img-thumbnail" style="max-width: 100px;">
+  </div>
+</div>

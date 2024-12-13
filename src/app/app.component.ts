@@ -7,4 +7,9 @@ import { RouterOutlet } from '@angular/router';
   template: '<router-outlet></router-outlet>',
   imports: [RouterOutlet], // Import RouterOutlet for routing
 })
-export class AppComponent {}
+
+export class AppComponent {
+
+  title = 'Rehome_draft2';
+
+}

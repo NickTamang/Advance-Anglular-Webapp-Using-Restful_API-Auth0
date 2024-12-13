@@ -1,0 +1,78 @@
+<form (ngSubmit)="registerUser()" #registerForm="ngForm">
+    <!-- Form Fields -->
+    <div class="mb-3">
+      <label for="username" class="form-label">Username</label>
+      <input
+        type="text"
+        class="form-control"
+        id="username"
+        [(ngModel)]="registerData.username"
+        name="username"
+        required
+      />
+      <div *ngIf="registerForm.submitted && !registerData.username" class="text-danger">
+        Username is required.
+      </div>
+    </div>
+  
+    <!-- Other Fields -->
+    <!-- Email -->
+    <div class="mb-3">
+      <label for="email" class="form-label">Email</label>
+      <input
+        type="email"
+        class="form-control"
+        id="email"
+        [(ngModel)]="registerData.email"
+        name="email"
+        required
+      />
+      <div *ngIf="registerForm.submitted && !registerData.email" class="text-danger">
+        Email is required.
+      </div>
+    </div>
+  
+    <!-- Password -->
+    <div class="mb-3">
+      <label for="password" class="form-label">Password</label>
+      <input
+        type="password"
+        class="form-control"
+        id="password"
+        [(ngModel)]="registerData.password"
+        name="password"
+        required
+      />
+      <div *ngIf="registerForm.submitted && !registerData.password" class="text-danger">
+        Password is required.
+      </div>
+    </div>
+  
+    <!-- Confirm Password -->
+    <div class="mb-3">
+      <label for="confirmPassword" class="form-label">Confirm Password</label>
+      <input
+        type="password"
+        class="form-control"
+        id="confirmPassword"
+        [(ngModel)]="confirmPassword"
+        name="confirmPassword"
+        required
+      />
+      <div *ngIf="registerForm.submitted && confirmPassword !== registerData.password" class="text-danger">
+        Passwords do not match.
+      </div>
+    </div>
+  
+    <!-- Submit Button -->
+    <button type="submit" class="btn btn-primary">Register</button>
+  
+    <!-- Success and Error Messages -->
+    <div *ngIf="successMessage" class="alert alert-success mt-3">
+      {{ successMessage }}
+    </div>
+    <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+      {{ errorMessage }}
+    </div>
+  </form>
+  

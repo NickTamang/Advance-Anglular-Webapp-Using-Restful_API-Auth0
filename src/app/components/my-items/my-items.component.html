@@ -71,7 +71,7 @@
   <!-- No Items Found -->
   <div *ngIf="items.length === 0" class="mt-3">
     <p>No items found. Fetching items you have shared...</p>
-    <button class="btn btn-secondary" (click)="fetchSharedItems()">Fetch Shared Items</button>
+    <button class="btn btn-secondary" (click)="fetchUserItems()">Fetch Shared Items</button>
     <ul *ngIf="sharedItems.length > 0" class="list-group mt-3">
       <li *ngFor="let sharedItem of sharedItems" class="list-group-item">
         <strong>{{ sharedItem.item_name }}</strong>: {{ sharedItem.description }}

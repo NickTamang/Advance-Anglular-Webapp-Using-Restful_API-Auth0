@@ -14,4 +14,10 @@ export const appRoutes: Routes = [
     loadComponent: () =>
       import('./components/my-items/my-items.component').then((m) => m.MyItemsComponent),
   },
+
+  {
+    path: 'register',
+    loadComponent: () =>
+      import('./components/register/register.component').then((m) => m.RegisterComponent),
+  },
 ];

@@ -1,24 +1,28 @@
-<br><br><br><br><br><div class="sidebar-container">
-    <!-- User Photo -->
-    <div class="profile-section text-center">
-      <img
-        *ngIf="userProfile?.profile_picture"
-        [src]="userProfile.profile_picture"
-        alt="User Photo"
-        class="profile-picture"
-      />
-      <p *ngIf="!userProfile?.profile_picture">No photo available</p>
+<div class="sidebar-container">
+  <!-- Display Username -->
   
-      <!-- View Profile Link -->
-      <a class="view-profile-link" href="#" routerLink="/profile">View Profile</a>
-    </div>
-  
-    <!-- My Items Section -->
-    <!-- My Items Button -->
-
-
-  
-    <!-- Log Out Button -->
-    <button class="btn btn-danger w-100 mt-3" (click)="logOut()">Log Out</button>
+<br>
+<br><br><br><br>
+  <!-- User Photo -->
+  <div class="profile-section text-center mt-3">
+    <img
+      *ngIf="userProfile?.profile_picture"
+      [src]="userProfile.profile_picture"
+      alt="User Photo"
+      class="profile-picture img-thumbnail"
+      style="max-width: 100px;"
+    />
+    <p *ngIf="!userProfile?.profile_picture">No photo available</p>
   </div>
-  
+  <div class="text-center mt-3">
+    <h6 *ngIf="userName; else noUsername" >{{ userName }}</h6>
+    <ng-template #noUsername>
+      <p>Fetching username...</p>
+    </ng-template>
+  </div>
+
+
+
+  <!-- Log Out Button -->
+  <button class="btn btn-danger w-100 mt-3" (click)="logOut()">Log Out</button>
+</div>

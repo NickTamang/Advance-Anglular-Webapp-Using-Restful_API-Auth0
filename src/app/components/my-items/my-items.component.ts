@@ -5,13 +5,14 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { TokenService } from '../../token/token.service';
 import { ItemService } from '../../services/item.service';
+import { SearchComponent } from '../search/search.component';
 
 @Component({
   standalone: true,
   selector: 'app-my-items',
   templateUrl: './my-items.component.html',
   styleUrls: ['./my-items.component.css'],
-  imports: [CommonModule, FormsModule], // Import CommonModule and FormsModule
+  imports: [CommonModule, FormsModule, SearchComponent], // Import CommonModule and FormsModule
 })
 export class MyItemsComponent implements OnInit {
   items: any[] = []; // List of user’s items

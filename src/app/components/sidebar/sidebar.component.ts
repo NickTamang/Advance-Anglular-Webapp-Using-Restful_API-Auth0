@@ -12,14 +12,17 @@ import { ItemService } from '../../services/item.service';
   imports: [CommonModule],
 })
 export class SidebarComponent implements OnInit {
-  userProfile: any = null; // To store user details
+  userProfile: any = null; // To store user profile details (photo, etc.)
+  userName: string | null = null; // To store the logged-in username
 
   constructor(private http: HttpClient, private router: Router, private itemService: ItemService) {}
 
   ngOnInit(): void {
-    this.fetchUserProfile();
+    this.fetchUserProfile(); // Fetch user profile for photo
+    this.fetchUserUsername(); // Fetch username
   }
 
+  // Fetch user profile details (photo, etc.)
   fetchUserProfile(): void {
     const token = this.itemService.getAuthToken();
     if (!token) {
@@ -28,12 +31,12 @@ export class SidebarComponent implements OnInit {
     }
 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const endpoint = 'http://localhost:5000/api/rehome/howisuser'; // Endpoint to fetch user info
+    const endpoint = 'http://localhost:5000/api/rehome/howisuser'; // Endpoint to fetch user profile
 
     this.http.get<any>(endpoint, { headers }).subscribe({
       next: (data) => {
         console.log('User Profile Fetched:', data);
-        this.userProfile = data; // Store user data
+        this.userProfile = data; // Assign data to userProfile
       },
       error: (error) => {
         console.error('Error fetching user profile:', error);
@@ -41,6 +44,34 @@ export class SidebarComponent implements OnInit {
     });
   }
 
+  // Fetch logged-in username
+  fetchUserUsername(): void {
+    const token = this.itemService.getAuthToken();
+    if (!token) {
+      console.error('User is not logged in.');
+      return;
+    }
+  
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    const endpoint = 'http://localhost:5000/api/rehome/whois'; // Endpoint to fetch username
+  
+    this.http.get<any>(endpoint, { headers }).subscribe({
+      next: (data) => {
+        console.log('Fetched Username Response:', data);
+        if (data && data.logged_in_as) {
+          this.userName = data.logged_in_as; // Assign the username if present
+        } else {
+          console.error('Unexpected response format:', data);
+        }
+      },
+      error: (error) => {
+        console.error('Error fetching username:', error);
+      },
+    });
+  }
+  
+
+  // Logout functionality
   logOut(): void {
     const token = this.itemService.getAuthToken();
     if (!token) {

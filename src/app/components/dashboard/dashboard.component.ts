@@ -20,6 +20,7 @@ export class DashboardComponent implements OnInit {
   loading = false;
   error: string | null = null;
 
+  expandedItems: { [key: string]: boolean } = {}; // Track expanded state for each item
   replyingCommentId: string | null = null;
   replyingItemId: string | null = null;
   replyText: string = '';
@@ -36,52 +37,38 @@ export class DashboardComponent implements OnInit {
 
     this.itemService.getItems().subscribe({
       next: (data) => {
-        console.log('Raw API Response:', data);
-
-        if (!Array.isArray(data)) {
-          console.error('Invalid data received: Expected an array of items.', data);
-          this.error = 'Failed to fetch items. Invalid data format.';
-          this.loading = false;
-          return;
-        }
-
-        // Process and assign the items
         this.items = data.map((item: any) => ({
           ...item,
           comments: Array.isArray(item.comments) ? item.comments : [], // Ensure comments is an array
         }));
-        this.filteredItems = [...this.items]; // Initialize filteredItems for search
-        console.log('Processed Items:', this.items);
+        this.filteredItems = [...this.items];
         this.loading = false;
       },
       error: (error) => {
         this.error = error?.message || 'Failed to fetch items. Please try again later.';
-        console.error('Error fetching items:', error);
         this.loading = false;
       },
     });
   }
 
+  toggleExpand(itemId: string): void {
+    this.expandedItems[itemId] = !this.expandedItems[itemId];
+  }
+
   onSearch(query: string): void {
     if (!query.trim()) {
-      // Restore the full list if the query is empty
       this.filteredItems = [...this.items];
       return;
     }
 
-    // Call the regex search endpoint
     this.itemService.getItemsByRegex(query).subscribe({
       next: (data) => {
-        console.log('Regex Search Response:', data);
-
-        // Update the filtered items with the response
         this.filteredItems = data.map((item: any) => ({
           ...item,
-          comments: Array.isArray(item.comments) ? item.comments : [], // Ensure comments is an array
+          comments: Array.isArray(item.comments) ? item.comments : [],
         }));
       },
       error: (error) => {
-        console.error('Error during search:', error);
         this.filteredItems = [];
       },
     });
@@ -99,41 +86,27 @@ export class DashboardComponent implements OnInit {
   }
 
   submitReply(): void {
-    if (!this.replyingCommentId || !this.replyText.trim()) {
-      console.error('Reply text or comment ID is missing.');
-      return;
-    }
+    if (!this.replyingCommentId || !this.replyText.trim()) return;
 
     const endpoint = `http://localhost:5000/api/rehome/comments/${this.replyingCommentId}/reply`;
     const token = this.itemService.getAuthToken();
-    if (!token) {
-      console.error('Token not available.');
-      return;
-    }
+
+    if (!token) return;
 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const payload = {
-      reply: this.replyText,
-    };
+    const payload = { reply: this.replyText };
 
     this.http.post(endpoint, payload, { headers }).subscribe({
-      next: (response) => {
-        console.log('Reply submitted successfully:', response);
-
-        // Update the corresponding comment with the reply
-        const item = this.items.find((i: any) =>
+      next: () => {
+        const item = this.items.find((i) =>
           i.comments.some((c: any) => c.comment_id === this.replyingCommentId)
         );
         const comment = item?.comments.find((c: any) => c.comment_id === this.replyingCommentId);
-        if (comment) {
-          comment.reply = this.replyText;
-        }
+        if (comment) comment.reply = this.replyText;
 
         this.closeReplyForm();
       },
-      error: (error) => {
-        console.error('Error submitting reply:', error.error);
-      },
+      error: (error) => console.error('Error submitting reply:', error),
     });
   }
 }
